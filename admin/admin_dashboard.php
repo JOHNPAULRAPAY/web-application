@@ -27,17 +27,19 @@ $logs = $conn->query("
 // Fetch distinct courses from `courses` table for dropdown
 $courses = $conn->query("SELECT DISTINCT course_name, year_level FROM courses ORDER BY course_name ASC");
 
-// ✅ Fetch all subjects including description
+// Fetch all subjects
 $subjects = $conn->query("SELECT id, course_name, subject_name, subject_code FROM courses ORDER BY course_name ASC, subject_name ASC");
 $allSubjects = [];
 while($sub = $subjects->fetch_assoc()) {
     $allSubjects[] = $sub;
 }
 
-// Fetch scheduled courses (join with courses table to get subject name)
+// Fetch scheduled courses
 $scheduledCourses = $conn->query("
-    SELECT course.id, course.course_name, course.course_code, courses.subject_code, courses.subject_name, 
-    course.teacher_name, course.room, course.schedule_day, course.schedule_start, course.schedule_end, courses.year_level
+    SELECT course.id, course.course_name, course.course_code, 
+           courses.subject_code, courses.subject_name, 
+           course.teacher_name, course.room, course.schedule_day, 
+           course.schedule_start, course.schedule_end, courses.year_level
     FROM course
     LEFT JOIN courses ON course.course_code = courses.id
     ORDER BY course.course_name ASC, courses.year_level ASC");
@@ -57,13 +59,11 @@ $scheduledCourses = $conn->query("
             color: #333;
         }
 
-        /* ✅ Navigation Menu */
+        /* Navbar */
         .navbar {
             background: #333;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-
         .navbar a {
             float: left;
             display: block;
@@ -73,7 +73,6 @@ $scheduledCourses = $conn->query("
             text-decoration: none;
             font-weight: 500;
         }
-
         .navbar a:hover {
             background: #4CAF50;
             color: white;
@@ -86,7 +85,6 @@ $scheduledCourses = $conn->query("
             margin: 0;
             text-align: center;
             font-size: 28px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .section {
@@ -95,7 +93,7 @@ $scheduledCourses = $conn->query("
             padding: 25px;
             max-width: 1200px;
             border-radius: 10px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            border: 1px solid #ddd; 
         }
 
         .section h2 {
@@ -112,38 +110,49 @@ $scheduledCourses = $conn->query("
             margin-top: 15px;
             font-size: 14px;
         }
-
         table th, table td {
             border: 1px solid #e0e0e0;
             padding: 10px 12px;
             text-align: left;
         }
-
         table th {
             background: #4CAF50;
             color: #fff;
             font-weight: 600;
         }
-
         table tr:nth-child(even) {
             background: #f9f9f9;
         }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
 
-        table tr:hover {
-            background: #f1f8f4;
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 48%; 
+            min-width: 250px; 
+        }
+
+        .form-group.full-width {
+            flex: 1 1 100%;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 5px;
         }
 
         select, input, textarea, button {
             width: 100%;
             padding: 10px;
-            margin: 8px 0;
             border-radius: 6px;
             border: 1px solid #ccc;
             font-size: 14px;
-        }
-
-        textarea[readonly] {
-            background: #f0f0f0;
+            background: #fff;
+            box-sizing: border-box; 
         }
 
         button {
@@ -154,25 +163,14 @@ $scheduledCourses = $conn->query("
             cursor: pointer;
             transition: 0.3s;
         }
-
         button:hover {
             background-color: #43a047;
-        }
-
-        a {
-            color: #4CAF50;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-<!-- ✅ Navigation Menu -->
+<!-- Navbar -->
 <div class="navbar">
     <a href="admin_dashboard.php">Dashboard</a>
     <a href="add_subject.php">Add Subject</a>
@@ -183,7 +181,7 @@ $scheduledCourses = $conn->query("
 
 <h1>Welcome, Admin <?= htmlspecialchars($_SESSION['user']) ?></h1>
 
-<!-- Online Users Section -->
+<!-- Online Users -->
 <div class="section">
     <h2>Online Users</h2>
     <table>
@@ -197,59 +195,87 @@ $scheduledCourses = $conn->query("
     </table>
 </div>
 
-<!-- Manage Courses Section -->
-<div class="section">
-    <h2>Manage Scheduled Courses</h2>
-    <form method="POST" action="manage_course.php">
-        <label for="course_name">Course:</label>
-        <select name="course_name" id="course_name" required>
-            <option value="">Select Course</option>
-            <?php while ($course = $courses->fetch_assoc()): ?>
-                <option value="<?= htmlspecialchars($course['course_name']) ?>">
-                    <?= htmlspecialchars($course['course_name']) ?> - Year <?= $course['year_level'] ?>
-                </option>
-            <?php endwhile; ?>
-        </select>
+        <!-- Manage Scheduled Courses -->
+        <div class="section">
+            <h2>Manage Scheduled Courses</h2>
+            <form method="POST" action="manage_course.php">
+                
+                <!-- Course -->
+                <div class="form-group full-width">
+                    <label>Course:</label>
+                    <select name="course_name" id="course_name" required>
+                        <option value="">Select Course</option>
+                        <?php while ($course = $courses->fetch_assoc()): ?>
+                            <option value="<?= htmlspecialchars($course['course_name']) ?>">
+                                <?= htmlspecialchars($course['course_name']) ?> - Year <?= $course['year_level'] ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
 
-        <label for="subject_id">Subject:</label>
-        <select name="subject_id" id="subject_id" required>
-            <option value="">Select Subject</option>
-        </select>
-
-        <label for="subject_code">Subject code:</label>
-        <textarea id="subject_code" readonly></textarea>
-
-        <input type="text" name="teacher_name" placeholder="Teacher Name" required>
-        <input type="text" name="room" placeholder="Room" required>
-
-        <label for="schedule_day">Schedule Day:</label>
-        <select name="schedule_day" required>
-            <option value="">Select Day</option>
-            <option>Monday</option>
-            <option>Tuesday</option>
-            <option>Wednesday</option>
-            <option>Thursday</option>
-            <option>Friday</option>
-            <option>Saturday</option>
-            <option>Sunday</option>
-        </select>
-
-        <label for="schedule_start">Schedule Start:</label>
-        <input type="time" name="schedule_start" id="schedule_start" required>
-
-        <label for="schedule_end">Schedule End:</label>
-        <input type="time" name="schedule_end" id="schedule_end" required>
+                <!-- Subject + Subject Code -->
+        <div class="form-group half">
+            <label>Subject:</label>
+            <select name="subject_id" id="subject_id" required>
+                <option value="">Select Subject</option>
+                <?php foreach ($allSubjects as $sub): ?>
+                    <option value="<?= htmlspecialchars($sub['id']) ?>" data-code="<?= htmlspecialchars($sub['subject_code']) ?>">
+                        <?= htmlspecialchars($sub['subject_name']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="form-group half">
+            <label>Subject Code:</label>
+            <input type="text" id="subject_code" name="subject_code" readonly>
+        </div>
 
 
-        <button type="submit">Add Scheduled Course</button>
+        <!-- Teacher + Room -->
+        <div class="form-group half">
+            <label>Teacher:</label>
+            <input type="text" name="teacher_name" placeholder="Teacher Name" required>
+        </div>
+        <div class="form-group half">
+            <label>Room:</label>
+            <input type="text" name="room" placeholder="Room" required>
+        </div>
+
+        <!-- Schedule Day -->
+        <div class="form-group full-width">
+            <label>Schedule Day:</label>
+            <select name="schedule_day" required>
+                <option value="">Select Day</option>
+                <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+                <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+            </select>
+        </div>
+
+        <!-- Schedule Start + End -->
+        <div class="form-group half">
+            <label>Schedule Start:</label>
+            <input type="time" name="schedule_start" required>
+        </div>
+        <div class="form-group half">
+            <label>Schedule End:</label>
+            <input type="time" name="schedule_end" required>
+        </div>
+
+        <!-- Submit -->
+        <div class="form-group full-width" style="text-align:center;">
+            <button type="submit">Add Scheduled Course</button>
+        </div>
     </form>
+</div>
 
-    <h3>Existing Scheduled Courses</h3>
+<!-- Existing Scheduled Courses -->
+<div class="section">
+    <h2>Existing Scheduled Courses</h2>
     <table>
         <tr>
             <th>ID</th>
             <th>Course/Year Level</th>
-            <th>Course Code</th>
+            <th>Subject Code</th>
             <th>Subject</th>
             <th>Teacher</th>
             <th>Room</th>
@@ -260,9 +286,9 @@ $scheduledCourses = $conn->query("
         <?php while ($course = $scheduledCourses->fetch_assoc()): ?>
             <tr>
                 <td><?= $course['id'] ?></td>
-                <td><?= htmlspecialchars($course['course_name']) ?> - Year <?= htmlspecialchars($course['year_level'])  ?></td>
-                <td><?= htmlspecialchars($course['subject_code']?? '') ?></td>
-                <td><?= htmlspecialchars($course['subject_name']?? '') ?></td>
+                <td><?= htmlspecialchars($course['course_name']) ?> - Year <?= htmlspecialchars($course['year_level']) ?></td>
+                <td><?= htmlspecialchars($course['subject_code'] ?? '') ?></td>
+                <td><?= htmlspecialchars($course['subject_name'] ?? '') ?></td>
                 <td><?= htmlspecialchars($course['teacher_name']) ?></td>
                 <td><?= htmlspecialchars($course['room']) ?></td>
                 <td><?= htmlspecialchars($course['schedule_day']) ?></td>
@@ -270,7 +296,6 @@ $scheduledCourses = $conn->query("
                     <?= date("g:i A", strtotime($course['schedule_start'])) ?> - 
                     <?= date("g:i A", strtotime($course['schedule_end'])) ?>
                 </td>
-
                 <td>
                     <a href="edit_course.php?id=<?= $course['id'] ?>">Edit</a> |
                     <a href="delete_course.php?id=<?= $course['id'] ?>" onclick="return confirm('Delete course?')">Delete</a>
@@ -280,7 +305,7 @@ $scheduledCourses = $conn->query("
     </table>
 </div>
 
-<!-- Activity Logs Section -->
+<!-- Activity Logs -->
 <div class="section">
     <h2>Recent Activity Logs</h2>
     <table>
@@ -297,20 +322,19 @@ $scheduledCourses = $conn->query("
 
 <script>
 const subjectsData = <?= json_encode($allSubjects) ?>;
-
 const courseSelect = document.getElementById('course_name');
 const subjectSelect = document.getElementById('subject_id');
-const descriptionBox = document.getElementById('subject_code');
+const subjectCodeInput = document.getElementById('subject_code');
 
 courseSelect.addEventListener('change', () => {
-    const courseCode = courseSelect.value;
+    const courseName = courseSelect.value;
     subjectSelect.innerHTML = '<option value="">Select Subject</option>';
-    descriptionBox.value = '';
+    subjectCodeInput.value = '';
     subjectsData.forEach(sub => {
-        if(sub.course_name === courseCode) {
+        if (sub.course_name === courseName) {
             const opt = document.createElement('option');
             opt.value = sub.id;
-            opt.textContent = sub.subject_name;
+            opt.textContent = sub.subject_name; // ✅ only subject name
             opt.dataset.code = sub.subject_code || '';
             subjectSelect.appendChild(opt);
         }
@@ -319,8 +343,9 @@ courseSelect.addEventListener('change', () => {
 
 subjectSelect.addEventListener('change', () => {
     const selectedOption = subjectSelect.selectedOptions[0];
-    descriptionBox.value = selectedOption ? selectedOption.dataset.code : '';
+    subjectCodeInput.value = selectedOption ? selectedOption.dataset.code : '';
 });
+
 </script>
 
 </body>
