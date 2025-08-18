@@ -1,0 +1,220 @@
+/* --- Existing Bulletin Board Styles --- */
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #d6dfff;
+    transition: background 0.5s ease; /* smooth theme toggle */
+  }
+  
+  header {
+    background-color: #4267B2;
+    padding: 8px 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 1.2em;
+    flex-grow: 1; /* push toggle to right */
+  }
+  
+  .menu-icon {
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+  
+  .section-title {
+    background-color: #4e6cef;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.1em;
+  }
+  
+  .container {
+    padding: 10px 20px;
+  }
+  
+  .post {
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin-top: 15px;
+    padding: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .post-header {
+    font-weight: bold;
+    font-size: 1.05em;
+    margin-bottom: 8px;
+  }
+  
+  .post-content {
+    font-size: 0.95em;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .post-image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .footer-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+  }
+  
+  .footer-nav i {
+    font-size: 1.4em;
+    color: #444;
+  }
+  
+  /* --- Toggle Switch Styles --- */
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Hide checkbox input */
+  #switch {
+    display: none;
+  }
+  
+  /* Container for toggle inside header */
+  .theme-toggle-container {
+    display: flex;
+    align-items: center;
+    height: 36px; /* fit header */
+    width: 72px;
+    position: relative;
+  }
+  
+  .theme-toggle-container .toggle {
+    position: relative;
+    display: block;
+    width: 72px !important;
+    height: 36px !important;
+    background: #222259;
+    border-radius: 30px !important;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 0.5s;
+  }
+  
+  /* The sliding button */
+  .theme-toggle-container .toggle .btn {
+    position: absolute;
+    top: 1px !important;
+    left: 1px !important;
+    width: 34px !important;
+    height: 34px !important;
+    background: #faeaf1;
+    border-radius: 50%;
+    box-shadow: 0 0 20px 2px #fff;
+    transition: all 0.5s ease-out;
+    overflow: hidden;
+    z-index: 2;
+  }
+  
+  /* Dots inside the button */
+  .theme-toggle-container .toggle .btn .dot {
+    position: absolute;
+    width: 34px !important;
+    height: 34px !important;
+    top: 0 !important;
+    left: 0 !important;
+    border-radius: 50% !important;
+    background: #faeaf1 !important;
+    box-shadow: none !important;
+    transition: transform 0.5s;
+  }
+  
+  /* Hide stars for smaller toggle inside header */
+  .theme-toggle-container .toggle .star {
+    display: none;
+  }
+  
+  /* When checked (dark mode ON) */
+  #switch:checked + .toggle {
+    background: #24d7f7;
+  }
+  
+  #switch:checked + .toggle .btn {
+    background: #fffee8;
+    transform: translateX(36px);
+    box-shadow: 0 0 20px 3px #fffcd8;
+  }
+  
+  /* Optional: smooth transition for dots */
+  #switch:checked + .toggle .btn .dot {
+    transform: none;
+  }
+  
+  /* --- Dark Mode Styles for the page --- */
+  
+  body.dark-theme {
+    background-color: #121212;
+    color: #eee;
+  }
+  
+  body.dark-theme header {
+    background-color: #1e1e1e;
+  }
+  
+  body.dark-theme .section-title {
+    background-color: #2c3e50;
+  }
+  
+  body.dark-theme .post {
+    background-color: #222;
+    color: #ddd;
+    box-shadow: 0 2px 6px rgba(255,255,255,0.1);
+  }
+  
+  body.dark-theme .footer-nav {
+    background: #1e1e1e;
+    border-top: 1px solid #555;
+  }
+  
+  body.dark-theme .footer-nav i {
+    color: #bbb;
+  }
+  
+  /* --- Responsive tweaks (optional) --- */
+  
+  @media (max-width: 480px) {
+    header {
+      padding: 8px 12px;
+    }
+    
+    .theme-toggle-container {
+      width: 60px;
+      height: 30px;
+    }
+    
+    .theme-toggle-container .toggle {
+      width: 60px !important;
+      height: 30px !important;
+    }
+    
+    .theme-toggle-container .toggle .btn {
+      width: 28px !important;
+      height: 28px !important;
+      top: 1px !important;
+      left: 1px !important;
+    }
+  }
+  

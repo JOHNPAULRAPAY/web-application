@@ -1,0 +1,155 @@
+.theme-toggle-container {
+    transform: scale(0.45); /* scale down the whole toggle visually */
+    transform-origin: right top; /* align it neatly to header */
+    margin-left: auto;
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Position inside header on the right */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Use the original full-size toggle styles below */
+  #switch {
+    display: none;
+  }
+  
+  .toggle {
+    position: relative;
+    display: block;
+    width: 200px;
+    height: 100px;
+    background: #222259;
+    border-radius: 50px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 0.5s;
+    z-index: 1;
+  }
+  
+  .btn {
+    position: absolute;
+    top: 7px;
+    left: 6px;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: #faeaf1;
+    overflow: hidden;
+    box-shadow: 0 0 35px 4px #ffffff;
+    transition: all 0.5s ease-out;
+  }
+  
+  .dot {
+    position: absolute;
+    border-radius: 60%;
+    transition: 0.5s;
+    width: var(--w);
+    height: var(--h);
+    top: var(--t);
+    right: var(--r);
+    bottom: var(--b);
+    left: var(--l);
+    background: var(--bg, #faeaf1);
+  }
+  
+  .dot:nth-child(1) { --bg: #fffff9; --w: 86px; --h: 86px; --l: 10px; --b: 10px; }
+  .dot:nth-child(2) { --w: 20px; --h: 20px; --t: -7px; --l: 44px; }
+  .dot:nth-child(3) { --w: 16px; --h: 16px; --t: 20px; --r: -4px; }
+  .dot:nth-child(4) { --w: 10px; --h: 10px; --t: 24px; --l: 30px; }
+  .dot:nth-child(5) { --w: 15px; --h: 15px; --t: 40px; --l: 48px; }
+  .dot:nth-child(6) { --w: 10px; --h: 10px; --t: 48px; --l: 20px; }
+  .dot:nth-child(7) { --w: 12px; --h: 12px; --b: 5px; --l: 35px; }
+  
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 1px 0 2px 2px #ffffff;
+    width: var(--w);
+    height: var(--h);
+    top: var(--t);
+    right: var(--r);
+    bottom: var(--b);
+    left: var(--l);
+  }
+  
+  .star:nth-child(1) { --w: 6px; --h: 6px; --r: 90px; --b: 40px; }
+  .star:nth-child(2) { --w: 8px; --h: 8px; --r: 70px; --t: 10px; }
+  .star:nth-child(3) { --w: 5px; --h: 5px; --r: 60px; --b: 15px; }
+  .star:nth-child(4) { --w: 3px; --h: 3px; --r: 40px; --b: 50px; }
+  .star:nth-child(5) { --w: 4px; --h: 4px; --r: 10px; --b: 35px; }
+  
+  .star:nth-child(6),
+  .star:nth-child(7),
+  .star:nth-child(8) {
+    width: 10px;
+    height: 2px;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    box-shadow: 5px 0 4px 1px #ffffff;
+    animation: shoot 1.5s ease-out infinite;
+    top: var(--st);
+    right: var(--sr);
+    bottom: var(--sb);
+    animation-delay: var(--sd, 0s);
+  }
+  
+  .star:nth-child(6) { --sr: 30px; --sb: 30px; --sd: -2s; }
+  .star:nth-child(7) { --sr: 50px; --sb: 60px; }
+  .star:nth-child(8) { --sr: 90px; --st: 10px; --sd: -4s; }
+  
+  @keyframes shoot {
+    0%   { transform: rotate(-45deg) translateX(70px); }
+    50%  { transform: rotate(-45deg) translateX(-20px); box-shadow: 5px 0 6px 1px #ffffff; }
+    100% { transform: rotate(-45deg) translateX(30px); width: 2px; height: 2px; opacity: 0; box-shadow: none; }
+  }
+  
+  /* Checked state */
+  #switch:checked + .toggle {
+    background: #24d7f7;
+  }
+  
+  #switch:checked + .toggle .btn {
+    background: #fffee8;
+    transform: translateX(102px);
+    box-shadow: 0 0 35px 5px #fffcd8;
+  }
+  
+  #switch:checked + .toggle .btn .dot {
+    transform: rotate(-45deg) translateX(70px);
+  }
+  
+  #switch:checked + .toggle .star {
+    animation: float 2s infinite;
+    transform: none;
+    box-shadow: none;
+    width: var(--cw);
+    height: var(--ch);
+    top: var(--ct);
+    bottom: var(--cb);
+    left: var(--cl);
+    border-radius: var(--cr, 50%);
+    background: #ffffff;
+    box-shadow: var(--cs, -1px 0 2px 0 #000000);
+  }
+  
+  #switch:checked + .toggle .star:nth-child(1) { --cw: 40px; --ch: 10px; --cr: 10px; --cl: 20px; --ct: 25px; --cs: none; }
+  #switch:checked + .toggle .star:nth-child(2) { --cw: 12px; --ch: 12px; --cl: 26px; --ct: 23px; }
+  #switch:checked + .toggle .star:nth-child(3) { --cw: 16px; --ch: 16px; --cl: 35px; --ct: 19px; }
+  #switch:checked + .toggle .star:nth-child(4) { --cw: 14px; --ch: 14px; --cl: 46px; --ct: 21px; }
+  #switch:checked + .toggle .star:nth-child(5) { --cw: 60px; --ch: 15px; --cr: 15px; --cl: 30px; --cb: 20px; --cs: none; }
+  #switch:checked + .toggle .star:nth-child(6) { --cw: 16px; --ch: 18px; --cl: 38px; --cb: 20px; }
+  #switch:checked + .toggle .star:nth-child(7) { --cw: 24px; --ch: 24px; --cl: 52px; --cb: 20px; }
+  #switch:checked + .toggle .star:nth-child(8) { --cw: 21px; --ch: 21px; --cl: 70px; --ct: 59px; }
+  
+  @keyframes float {
+    0%   { transform: none; }
+    25%  { transform: translateX(2px); }
+    100% { transform: translateX(-2px); }
+  }
+  

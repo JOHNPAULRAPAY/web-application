@@ -1,0 +1,36 @@
+/* menu.css */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: #f0f0f0;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 60px;
+    border-right: 1px solid #ccc;
+  }
+  
+  .sidebar a {
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    color: #333;
+  }
+  
+  .sidebar a:hover {
+    background-color: #4267B2;
+    color: white;
+  }
+  
+  .sidebar .closebtn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    color: #333;
+    text-decoration: none;
+  }
+  
