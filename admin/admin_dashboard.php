@@ -28,7 +28,7 @@ $logs = $conn->query("
 $courses = $conn->query("SELECT DISTINCT course_name, year_level FROM courses ORDER BY course_name ASC");
 
 // Fetch all subjects
-$subjects = $conn->query("SELECT id, course_name, subject_name, subject_code FROM courses ORDER BY course_name ASC, subject_name ASC");
+$subjects = $conn->query("SELECT id, course_name, subject_name, subject_code, year_level FROM courses ORDER BY course_name ASC, subject_name ASC");
 $allSubjects = [];
 while($sub = $subjects->fetch_assoc()) {
     $allSubjects[] = $sub;
@@ -327,14 +327,22 @@ const subjectSelect = document.getElementById('subject_id');
 const subjectCodeInput = document.getElementById('subject_code');
 
 courseSelect.addEventListener('change', () => {
-    const courseName = courseSelect.value;
+    // Parse course name + year from the selected option
+    const selected = courseSelect.selectedOptions[0];
+    if (!selected) return;
+
+    const courseName = selected.value;
+    const yearMatch = selected.textContent.match(/Year (\d+)/);
+    const yearLevel = yearMatch ? parseInt(yearMatch[1]) : null;
+
     subjectSelect.innerHTML = '<option value="">Select Subject</option>';
     subjectCodeInput.value = '';
+
     subjectsData.forEach(sub => {
-        if (sub.course_name === courseName) {
+        if (sub.course_name === courseName && parseInt(sub.year_level) === yearLevel) {
             const opt = document.createElement('option');
             opt.value = sub.id;
-            opt.textContent = sub.subject_name; // ✅ only subject name
+            opt.textContent = sub.subject_name;
             opt.dataset.code = sub.subject_code || '';
             subjectSelect.appendChild(opt);
         }
@@ -345,6 +353,7 @@ subjectSelect.addEventListener('change', () => {
     const selectedOption = subjectSelect.selectedOptions[0];
     subjectCodeInput.value = selectedOption ? selectedOption.dataset.code : '';
 });
+
 
 </script>
 
