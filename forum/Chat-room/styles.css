@@ -150,4 +150,11 @@ body {
   .post--right .bubble {
     background: #3a3cff;
   }
-  
+  .time {
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: 4px;
+  }
+  .post--right .time {
+    text-align: right;
+  }

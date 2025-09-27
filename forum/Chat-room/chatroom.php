@@ -10,7 +10,7 @@ $username = $_SESSION["user"];
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Chat App</title>
+  <title>Chat Room</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -36,7 +36,7 @@ $username = $_SESSION["user"];
         <p class="placeholder">No messages here yet...</p>
       </div>
       <div class="chat-input">
-        <input type="text" id="messageInput" placeholder="Write a message...">
+        <input type="text" id="messageInput" placeholder="Type a message...">
         <button id="sendBtn">➤</button>
       </div>
     </div>
