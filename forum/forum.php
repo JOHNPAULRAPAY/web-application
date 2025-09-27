@@ -55,18 +55,18 @@ if(!isset($_SESSION['user'])){
   <div class="section-title">Latest</div>
   <div class="container">
     <div class="post">
-      
+      <p>No post yet.</p>
     </div>
   </div>
 
   <div class="section-title">Bulletin</div>
   <div class="container">
     <div class="post">
-      
+      <p>No post yet.</p>
     </div>
 
     <div class="post">
-      
+      <p>No post yet.</p>
     </div>
   </div>
 
@@ -84,7 +84,6 @@ if(!isset($_SESSION['user'])){
       const sidebar = document.getElementById("sidebar");
       sidebar.style.width = sidebar.style.width === "200px" ? "0" : "200px";
     }
-    
   </script>
 </body>
-</html> 
+</html>

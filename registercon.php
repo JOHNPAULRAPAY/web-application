@@ -8,7 +8,4 @@ $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES(?, 
 $stmt->bind_param("sss", $username, $email, $password);
 $stmt->execute();
 echo "<script>alert('Registration Succcesful');window.location.href = 'index.php';</script>";
-
-
-
 ?>

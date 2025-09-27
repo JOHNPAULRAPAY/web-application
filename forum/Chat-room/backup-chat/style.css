@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background: #1e1e2f;
+    color: #fff;
+  }
+  
+  .chat-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    background: #2a2a3d;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .sidebar h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+  }
+  
+  .sidebar li {
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .sidebar li:hover {
+    background: #3a3a55;
+  }
+  
+  .sidebar-footer {
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
+  
+  /* Chat Window */
+  .chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #242438;
+  }
+  
+  .chat-header {
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+  }
+  
+  .messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .message {
+    max-width: 60%;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    line-height: 1.4;
+  }
+  
+  .message.user {
+    align-self: flex-end;
+    background: #007bff;
+    color: #fff;
+  }
+  
+  .message.other {
+    align-self: flex-start;
+    background: #3a3a55;
+    color: #fff;
+  }
+  
+  /* Form */
+  .chat-form {
+    display: flex;
+    padding: 1rem;
+    border-top: 1px solid #333;
+    background: #2a2a3d;
+  }
+  
+  .chat-form input {
+    flex: 1;
+    border: none;
+    border-radius: 20px;
+    padding: 0.7rem 1rem;
+    outline: none;
+  }
+  
+  .chat-form button {
+    background: #007bff;
+    border: none;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    cursor: pointer;
+  }
+  .username {
+    font-size: 0.8rem;
+    color: #aaa;
+    margin: 0 0 2px 5px;
+  }
+  
+  .bubble {
+    background: #007bff; /* or keep your existing colors */
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    display: inline-block;
+    max-width: 70%;
+    word-wrap: break-word;
+  }
+  
